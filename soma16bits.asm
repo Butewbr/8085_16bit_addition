@@ -12,18 +12,18 @@
 ;   2. Os 8 LSB do primeiro número estão no endereço 2050H e os 8 MSB estão no endereço 2051H.
 ;   3. Já os 8 LSB do segundo número estão no endereço 2052H e os 8 MSB no endereço 2053H.
 ;   4. Os 8 LSB do resultado devem ser salvos no endereço 205BH e os 8 MSB no endereço 205CH. Considere sempre o valor em hexadecimal.
-;   5. Indicador de overhead: No endereço 205AH deverá ser salvo um indicador de overhead:
-;       a) Se *não* ocorrer nenhum overhead, então, no endereço, deverá ser salvo o valor 00H.
-;       b) Se ocorrer um overhead positivo, deverá ser salvo o valor 01H no endereço.
-;       c) Se ocorrer um overhead negativo, o valor 10H deverá ser salvo.
-;       * Um overhead positivo ocorre quando a soma de dois números positivos resulta em um valor negativo.
-;       * Um overhead negativo ocorre quando a soma de dois números negativos resulta em um valor positivo.
+;   5. Indicador de overflow: No endereço 205AH deverá ser salvo um indicador de overflow:
+;       a) Se *não* ocorrer nenhum overflow, então, no endereço, deverá ser salvo o valor 00H.
+;       b) Se ocorrer um overflow positivo, deverá ser salvo o valor 01H no endereço.
+;       c) Se ocorrer um overflow negativo, o valor 10H deverá ser salvo.
+;       * Um overflow positivo ocorre quando a soma de dois números positivos resulta em um valor negativo.
+;       * Um overflow negativo ocorre quando a soma de dois números negativos resulta em um valor positivo.
 ; 
 ; Resumo dos passos:
 ; 1. Ler os valores dados nos endereços dados.
 ; 2. Fazer a soma dos valores.
-;   2.1. Em caso de overhead, registrar no endereço pedido o respectivo valor.
-; 3. Registrar os resultados nos endereços requisitados.
+; 3. Verificar se os dois valores são ambos negativos, ambos positivos ou alterados
+; 4. Registrar os resultados nos endereços requisitados.
 
 
 .org 0000H      ; código começa em 0000H para ser mais fácil de achar
@@ -36,7 +36,7 @@
         JNC reg        ; se não tem carry, pula pro loop
         INR C           ; se tem carry, incrementa o valor do registrador C
 
-reg:   SHLD 205BH      ; registra o resultado nos endereços 205BH e 205CH
+reg:    SHLD 205BH      ; registra o resultado nos endereços 205BH e 205CH
         MOV A, C        ; movemos o valor do carry ao acumulador
         STA 205AH       ; armazenamos o resultado do carry na coordenada especificada
         HLT             ; finalizamos o programa
