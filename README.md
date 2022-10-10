@@ -19,6 +19,7 @@ Este programa foi feito para uma tarefa da disciplina Organização e Arquitetur
  
 ## Resumo dos passos:
 1. Ler os valores dados nos endereços dados.
-2. Fazer a soma dos valores.<br>
-    2.1. Em caso de overflow, registrar no endereço pedido o respectivo valor.
-3. Registrar os resultados nos endereços requisitados.
+2. Fazer a soma dos valores.
+3. Verificar se ambos os valores são negativos, positivos ou de sinais diferentes.\\
+    3.1. Indicação do overflow baseado na resposta dos sinais.
+4. Registrar os resultados nos endereços requisitados.
